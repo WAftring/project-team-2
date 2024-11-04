@@ -54,9 +54,3 @@ jobs:
       env:
         SPRING_DATASOURCE_URL: jdbc:h2:mem:test
         SPRING_JPA_HIBERNATE_DDL_AUTO: create-drop
-        
-    - name: Official SonarQube Scan
-      uses: SonarSource/sonarqube-scan-action@v3.0.0
-      with:
-          projectBaseDir: ./code/
-          
