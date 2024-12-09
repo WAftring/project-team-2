@@ -40,6 +40,7 @@ public class UserAuthenticationControllerTest {
     @Mock
     private PasswordResetService passwordResetService;
     User user;
+    private static final String GENERIC_ERROR = "Something went wrong.";
     @BeforeEach
     void setup() {
         user = User.builder().user_id(1)
@@ -127,7 +128,7 @@ public class UserAuthenticationControllerTest {
         ResponseEntity res = userAuthController.forgetPassword(loginData);
 
         assertEquals(HttpStatus.INTERNAL_SERVER_ERROR,res.getStatusCode());
-        assertEquals("Something went wrong.",res.getBody());
+        assertEquals(GENERIC_ERROR,res.getBody());
     }
 
     @Test
@@ -168,7 +169,7 @@ public class UserAuthenticationControllerTest {
         ResponseEntity res = userAuthController.resetPassword(resetPassword);
 
         assertEquals(HttpStatus.UNAUTHORIZED,res.getStatusCode());
-        assertEquals("Something went wrong.",res.getBody());
+        assertEquals(GENERIC_ERROR,res.getBody());
     }
 
     @Test
@@ -180,6 +181,6 @@ public class UserAuthenticationControllerTest {
         ResponseEntity res = userAuthController.resetPassword(resetPassword);
 
         assertEquals(HttpStatus.INTERNAL_SERVER_ERROR,res.getStatusCode());
-        assertEquals("Something went wrong.",res.getBody());
+        assertEquals(GENERIC_ERROR,res.getBody());
     }
 }

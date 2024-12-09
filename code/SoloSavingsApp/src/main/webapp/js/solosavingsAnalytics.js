@@ -13,7 +13,7 @@ function analytics() {
             window.location.replace("/solosavings/login");
         }
     }
-
+    let genericError = 'Something went wrong!'
     setAuthHeader();
     $.ajaxSetup({
         headers: {
@@ -39,7 +39,7 @@ function analytics() {
                     incomesData = gsonObj.toJson(response);
                 },
                 error: function (error) {
-                    console.error('Something went wrong!', error);
+                    console.error(genericError, error);
                 }
             });
         }
@@ -54,7 +54,7 @@ function analytics() {
                     expensesData = gsonObj.toJson(response);
                 },
                 error: function (error) {
-                    console.error('Something went wrong!', error);
+                    console.error(genericError, error);
                 }
             });
         }

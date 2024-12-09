@@ -5,6 +5,7 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
@@ -21,7 +22,12 @@ import java.util.function.Function;
 @Component
 public class JwtUtil implements Serializable {
 
-    private static final byte[] SECRET = "694a28b26c854d7eaf1bd2c72aef58acc216edee0fc845a882b0aba8b545df69".getBytes(StandardCharsets.UTF_8);
+    @Value("${jwt.secret}")
+    private static String SECRET;
+    private static byte[] getSecret()
+    {
+        return SECRET.getBytes(StandardCharsets.UTF_8);
+    }
     private static final Long EXPIRATION = (long) (30 * 60 * 1000); // 30 minutes
 
     private static final SecureRandom secureRandom = new SecureRandom(); //threadsafe
@@ -38,7 +44,7 @@ public class JwtUtil implements Serializable {
 
     private Claims extractAllClaims(String token) {
         // TODO(will): Use non-deprecated functions...
-        return Jwts.parser().setSigningKey(SECRET).parseClaimsJws(token).getBody();
+        return Jwts.parser().setSigningKey(getSecret()).parseClaimsJws(token).getBody();
     }
 
     public TokenDetails generateToken(String username) {
@@ -50,13 +56,13 @@ public class JwtUtil implements Serializable {
 
     private String createToken(Map<String, Object> claims, String subject, Date expiry) {
         // TODO(will): Use non-deprecated functions
-        SecretKey key = Keys.hmacShaKeyFor(SECRET);
+        SecretKey key = Keys.hmacShaKeyFor(getSecret());
         return Jwts.builder()
                 .setClaims(claims)
                 .setSubject(subject)
                 .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(expiry)
-                .signWith(key, SignatureAlgorithm.HS256)
+                .signWith(key, SignatureAlgorithm.HS512)
                 .compact();
     }
 
@@ -76,6 +82,6 @@ public class JwtUtil implements Serializable {
     }
 
     private Date getExpirationDateFromToken(String token) {
-        return Jwts.parserBuilder().setSigningKey(SECRET).build().parseClaimsJws(token).getBody().getExpiration();
+        return Jwts.parserBuilder().setSigningKey(getSecret()).build().parseClaimsJws(token).getBody().getExpiration();
     }
 }
