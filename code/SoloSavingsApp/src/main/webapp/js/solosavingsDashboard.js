@@ -14,7 +14,7 @@ function setAuthHeader() {
 }
 
 setAuthHeader();
-
+let genericError = 'Something went wrong!';
 let thisMonthIncome;
 let thisMonthExpense;
 let totalBalance;
@@ -32,7 +32,7 @@ $.ajax({
         thisMonthIncome = response;
     },
     error: function(error) {
-        console.error('Something went wrong!', error);
+        console.error(genericError, error);
     }
 });
 $.ajax({
@@ -45,7 +45,7 @@ $.ajax({
 
     },
     error: function(error) {
-        console.error('Something went wrong!', error);
+        console.error(genericError, error);
     }
 });
 $.ajax({
@@ -57,7 +57,7 @@ $.ajax({
         totalBalance = response;
     },
     error: function(error) {
-        console.error('Something went wrong!', error);
+        console.error(genericError, error);
     }
 });
 

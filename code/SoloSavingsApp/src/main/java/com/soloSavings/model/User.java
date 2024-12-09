@@ -49,4 +49,7 @@ public class User {
         this.last_updated = LocalDate.now();
     }
 
+    public Integer getUser_id() {
+        return user_id;
+    }
 }

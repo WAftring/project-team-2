@@ -29,7 +29,7 @@ public class BudgetGoalController {
     SecurityContext securityContext;
 
     @RequestMapping(value="add", method=RequestMethod.POST)
-    public ResponseEntity<?> addBudgetGoal (@RequestBody BudgetGoal budgetGoal){
+    public ResponseEntity<BudgetGoal> addBudgetGoal (@RequestBody BudgetGoal budgetGoal){
         securityContext.setContext(SecurityContextHolder.getContext());
         try{
             BudgetGoal budgetGoalReturned = budgetGoalServiceImpl.addBudgetGoal(securityContext.getCurrentUser().getUser_id(), budgetGoal);
@@ -37,12 +37,12 @@ public class BudgetGoalController {
             return new ResponseEntity<>(budgetGoalReturned,HttpStatus.OK);
         } catch (BudgetGoalException e) {
             securityContext.dispose();
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.UNPROCESSABLE_ENTITY);
+            return new ResponseEntity<>(null, HttpStatus.UNPROCESSABLE_ENTITY);
         }
     }
 
     @GetMapping("all")
-    public ResponseEntity<?> getBudgetGoals() {
+    public ResponseEntity<List<BudgetGoalTracker>> getBudgetGoals() {
         securityContext.setContext(SecurityContextHolder.getContext());
         List<BudgetGoalTracker> budgetGoalTrackerList = budgetGoalTrackerService.findAllGoalsByUserId(securityContext.getCurrentUser().getUser_id());
         securityContext.dispose();
@@ -50,13 +50,13 @@ public class BudgetGoalController {
     }
 
     @DeleteMapping("delete/{budgetgoal_id}")
-    public ResponseEntity<?> deleteBudgetGoal(@PathVariable("budgetgoal_id") Integer budgetgoal_id){
+    public ResponseEntity<BudgetGoal> deleteBudgetGoal(@PathVariable("budgetgoal_id") Integer budgetgoal_id){
         securityContext.setContext(SecurityContextHolder.getContext());
         try {
             BudgetGoal budgetGoalReturned = budgetGoalServiceImpl.deleteBudgetGoal(budgetgoal_id);
-            return new ResponseEntity<>(budgetGoalReturned , HttpStatus.OK);
+            return new ResponseEntity<>(budgetGoalReturned, HttpStatus.OK);
         } catch (BudgetGoalException e) {
-            return new ResponseEntity<>(e.getMessage(),HttpStatus.UNPROCESSABLE_ENTITY);
+            return new ResponseEntity<>(null, HttpStatus.UNPROCESSABLE_ENTITY);
         }
     }
 }

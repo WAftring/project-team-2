@@ -24,4 +24,8 @@ public class BudgetGoal {
     private String source;
     private Double targetAmount;
     private LocalDate startDate;
+
+    public Integer getId() {
+        return id;
+    }
 }

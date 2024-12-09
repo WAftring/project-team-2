@@ -22,4 +22,8 @@ public class Comments {
     private Integer user_id;
 
     private Integer transaction_id;
+
+    public Integer getId() {
+        return id;
+    }
 }
