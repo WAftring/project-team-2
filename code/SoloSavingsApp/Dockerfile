@@ -1,5 +1,5 @@
 # Start with a base image containing Java runtime
-FROM maven:3.8-openjdk-17 as builder
+FROM maven:3.9.9-eclipse-temurin-17 as builder
 ENV SPRING_MYSQL_HOST=solosavings-db
 ENV SPRING_SSL=true
 ENV SPRING_KEYPW=Password1
